@@ -1,0 +1,590 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        10/13/2016  19:48:32  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\KEIL\C51\BIN\BL51.EXE STC15W408AS.obj, ShuMaShow.obj TO STC15W408AS RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STC15W408AS.obj (STC15W408AS)
+  ShuMaShow.obj (SHUMASHOW)
+  D:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+  D:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  STC15W408AS (STC15W408AS)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000DH     UNIT         ?DT?STC15W408AS
+            DATA    0015H     0006H     UNIT         _DATA_GROUP_
+            IDATA   001BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     UNIT         ?PR?RELAY_ON?STC15W408AS
+            CODE    0006H     0003H     UNIT         ?PR?RELAY_OFF?STC15W408AS
+                    0009H     0002H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     00ACH     UNIT         ?PR?_SHUMASHOW?SHUMASHOW
+            CODE    00BAH     009DH     UNIT         ?PR?RELAYONTIMESETMODE?STC15W408AS
+            CODE    0157H     009DH     UNIT         ?PR?RELAYORDERTIMESETMODE?STC15W408AS
+            CODE    01F4H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0280H     0072H     UNIT         ?PR?RELAYONMODE?STC15W408AS
+            CODE    02F2H     006AH     UNIT         ?PR?RELAYORDERMODE?STC15W408AS
+            CODE    035CH     0055H     UNIT         ?C?LIB_CODE
+            CODE    03B1H     0050H     UNIT         ?PR?MAIN?STC15W408AS
+            CODE    0401H     002BH     UNIT         ?PR?_DELAY?SHUMASHOW
+            CODE    042CH     0026H     UNIT         ?PR?TM0_ISR?STC15W408AS
+            CODE    0452H     0024H     UNIT         ?PR?_DELAY?STC15W408AS
+            CODE    0476H     001EH     UNIT         ?C_INITSEG
+            CODE    0494H     0014H     UNIT         ?CO?SHUMASHOW
+            CODE    04A8H     0013H     UNIT         ?PR?TIMERSTART?STC15W408AS
+            CODE    04BBH     0013H     UNIT         ?PR?TIMERSTOP?STC15W408AS
+            CODE    04CEH     0011H     UNIT         ?PR?TIMERINIT?STC15W408AS
+            CODE    04DFH     0003H     UNIT         ?PR?LED1_ON?STC15W408AS
+            CODE    04E2H     0003H     UNIT         ?PR?LED1_OFF?STC15W408AS
+            CODE    04E5H     0003H     UNIT         ?PR?LED2_ON?STC15W408AS
+            CODE    04E8H     0003H     UNIT         ?PR?LED2_OFF?STC15W408AS
+            CODE    04EBH     0003H     UNIT         ?PR?LED3_ON?STC15W408AS
+            CODE    04EEH     0003H     UNIT         ?PR?LED3_OFF?STC15W408AS
+
+
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 2
+
+
+OVERLAY MAP OF MODULE:   STC15W408AS (STC15W408AS)
+
+
+SEGMENT                                         DATA_GROUP 
+  +--> CALLED SEGMENT                         START    LENGTH
+-------------------------------------------------------------
+?C_C51STARTUP                                 -----    -----
+  +--> ?PR?MAIN?STC15W408AS
+  +--> ?C_INITSEG
+
+?PR?MAIN?STC15W408AS                          -----    -----
+  +--> ?PR?_DELAY?STC15W408AS
+  +--> ?PR?LED1_OFF?STC15W408AS
+  +--> ?PR?LED2_OFF?STC15W408AS
+  +--> ?PR?LED3_OFF?STC15W408AS
+  +--> ?PR?TIMERINIT?STC15W408AS
+  +--> ?PR?TIMERSTART?STC15W408AS
+  +--> ?PR?RELAYONTIMESETMODE?STC15W408AS
+  +--> ?PR?_SHUMASHOW?SHUMASHOW
+  +--> ?PR?RELAYORDERTIMESETMODE?STC15W408AS
+  +--> ?PR?RELAYORDERMODE?STC15W408AS
+  +--> ?PR?RELAYONMODE?STC15W408AS
+
+?PR?RELAYONTIMESETMODE?STC15W408AS            0015H    0002H
+  +--> ?PR?_DELAY?STC15W408AS
+  +--> ?PR?_SHUMASHOW?SHUMASHOW
+
+?PR?_SHUMASHOW?SHUMASHOW                      0017H    0004H
+  +--> ?CO?SHUMASHOW
+  +--> ?PR?_DELAY?SHUMASHOW
+
+?PR?RELAYORDERTIMESETMODE?STC15W408AS         0015H    0002H
+  +--> ?PR?_DELAY?STC15W408AS
+  +--> ?PR?_SHUMASHOW?SHUMASHOW
+
+?PR?RELAYORDERMODE?STC15W408AS                -----    -----
+  +--> ?PR?_DELAY?STC15W408AS
+  +--> ?PR?_SHUMASHOW?SHUMASHOW
+
+?PR?RELAYONMODE?STC15W408AS                   -----    -----
+  +--> ?PR?_DELAY?STC15W408AS
+  +--> ?PR?_SHUMASHOW?SHUMASHOW
+
+
+
+SYMBOL TABLE OF MODULE:  STC15W408AS (STC15W408AS)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        STC15W408AS
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0096H         PUBLIC        P2M0
+  D:000CH         PUBLIC        OneSecondFlag
+  D:0095H         PUBLIC        P2M1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 3
+
+
+  C:04E2H         PUBLIC        led1_off
+  C:04E8H         PUBLIC        led2_off
+  B:00A8H.7       PUBLIC        EA
+  C:00BAH         PUBLIC        RelayOnTimeSetMode
+  C:04EEH         PUBLIC        led3_off
+  C:02F2H         PUBLIC        RelayOrderMode
+  C:0456H         PUBLIC        _delay
+  C:04A8H         PUBLIC        TimerStart
+  C:04CEH         PUBLIC        TimerInit
+  B:00A0H.0       PUBLIC        relay
+  D:000EH         PUBLIC        RelayOrderMin
+  C:04DFH         PUBLIC        led1_on
+  C:03B1H         PUBLIC        main
+  C:04E5H         PUBLIC        led2_on
+  C:04EBH         PUBLIC        led3_on
+  C:04BBH         PUBLIC        TimerStop
+  D:0089H         PUBLIC        TMOD
+  C:0006H         PUBLIC        relay_off
+  D:008EH         PUBLIC        AUXR
+  C:042CH         PUBLIC        tm0_isr
+  C:0280H         PUBLIC        RelayOnMode
+  C:0157H         PUBLIC        RelayOrderTimeSetMode
+  B:00A8H.1       PUBLIC        ET0
+  B:0088H.5       PUBLIC        TF0
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  C:0003H         PUBLIC        relay_on
+  D:0010H         PUBLIC        RelayOnMin
+  B:00A0H.3       PUBLIC        led1
+  B:00A0H.2       PUBLIC        led2
+  B:00A0H.1       PUBLIC        led3
+  D:0012H         PUBLIC        System_Mode
+  D:0013H         PUBLIC        use_cnt
+  B:00B0H.2       PUBLIC        key1
+  B:00B0H.3       PUBLIC        key2
+  -------         PROC          TIMERINIT
+  C:04CEH         LINE#         35
+  C:04CEH         LINE#         36
+  C:04CEH         LINE#         37
+  C:04D1H         LINE#         38
+  C:04D4H         LINE#         39
+  C:04D7H         LINE#         40
+  C:04DAH         LINE#         41
+  C:04DCH         LINE#         42
+  C:04DEH         LINE#         43
+  -------         ENDPROC       TIMERINIT
+  -------         PROC          TIMERSTART
+  C:04A8H         LINE#         46
+  C:04A8H         LINE#         47
+  C:04A8H         LINE#         48
+  C:04ABH         LINE#         49
+  C:04AEH         LINE#         50
+  C:04B1H         LINE#         51
+  C:04B4H         LINE#         52
+  C:04B6H         LINE#         53
+  C:04B8H         LINE#         54
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 4
+
+
+  C:04BAH         LINE#         55
+  -------         ENDPROC       TIMERSTART
+  -------         PROC          TIMERSTOP
+  C:04BBH         LINE#         57
+  C:04BBH         LINE#         58
+  C:04BBH         LINE#         59
+  C:04BEH         LINE#         60
+  C:04C1H         LINE#         61
+  C:04C4H         LINE#         62
+  C:04C7H         LINE#         63
+  C:04C9H         LINE#         64
+  C:04CBH         LINE#         65
+  C:04CDH         LINE#         66
+  -------         ENDPROC       TIMERSTOP
+  C:0452H         SYMBOL        L?0096
+  -------         PROC          L?0095
+  -------         ENDPROC       L?0095
+  C:0452H         SYMBOL        L?0096
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        x
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0456H         LINE#         68
+  C:0456H         LINE#         69
+  C:0456H         LINE#         71
+  C:0460H         LINE#         72
+  C:0475H         LINE#         73
+  -------         ENDPROC       _DELAY
+  -------         PROC          RELAY_ON
+  C:0003H         LINE#         75
+  C:0003H         LINE#         76
+  C:0003H         LINE#         77
+  C:0005H         LINE#         78
+  -------         ENDPROC       RELAY_ON
+  -------         PROC          RELAY_OFF
+  C:0006H         LINE#         80
+  C:0006H         LINE#         81
+  C:0006H         LINE#         82
+  C:0008H         LINE#         83
+  -------         ENDPROC       RELAY_OFF
+  -------         PROC          LED1_ON
+  C:04DFH         LINE#         85
+  C:04DFH         LINE#         86
+  C:04DFH         LINE#         87
+  C:04E1H         LINE#         88
+  -------         ENDPROC       LED1_ON
+  -------         PROC          LED1_OFF
+  C:04E2H         LINE#         90
+  C:04E2H         LINE#         91
+  C:04E2H         LINE#         92
+  C:04E4H         LINE#         93
+  -------         ENDPROC       LED1_OFF
+  -------         PROC          LED2_ON
+  C:04E5H         LINE#         95
+  C:04E5H         LINE#         96
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 5
+
+
+  C:04E5H         LINE#         97
+  C:04E7H         LINE#         98
+  -------         ENDPROC       LED2_ON
+  -------         PROC          LED2_OFF
+  C:04E8H         LINE#         100
+  C:04E8H         LINE#         101
+  C:04E8H         LINE#         102
+  C:04EAH         LINE#         103
+  -------         ENDPROC       LED2_OFF
+  -------         PROC          LED3_ON
+  C:04EBH         LINE#         105
+  C:04EBH         LINE#         106
+  C:04EBH         LINE#         107
+  C:04EDH         LINE#         108
+  -------         ENDPROC       LED3_ON
+  -------         PROC          LED3_OFF
+  C:04EEH         LINE#         110
+  C:04EEH         LINE#         111
+  C:04EEH         LINE#         112
+  C:04F0H         LINE#         113
+  -------         ENDPROC       LED3_OFF
+  -------         PROC          MAIN
+  C:03B1H         LINE#         134
+  C:03B1H         LINE#         135
+  C:03B1H         LINE#         137
+  C:03B4H         LINE#         139
+  C:03B7H         LINE#         140
+  C:03BAH         LINE#         141
+  C:03BCH         LINE#         142
+  C:03BFH         LINE#         143
+  C:03C2H         LINE#         144
+  C:03C5H         LINE#         145
+  C:03C8H         LINE#         146
+  C:03CBH         LINE#         148
+  C:03CEH         LINE#         149
+  C:03CEH         LINE#         150
+  C:03CEH         LINE#         151
+  C:03D3H         LINE#         152
+  C:03D3H         LINE#         154
+  C:03D6H         LINE#         155
+  C:03E1H         LINE#         156
+  C:03E3H         LINE#         157
+  C:03E8H         LINE#         158
+  C:03E8H         LINE#         159
+  C:03EBH         LINE#         160
+  C:03EDH         LINE#         161
+  C:03F2H         LINE#         162
+  C:03F2H         LINE#         163
+  C:03F5H         LINE#         164
+  C:03F7H         LINE#         165
+  C:03FCH         LINE#         166
+  C:03FCH         LINE#         167
+  C:03FFH         LINE#         168
+  C:03FFH         LINE#         171
+  -------         ENDPROC       MAIN
+  -------         PROC          TM0_ISR
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 6
+
+
+  D:0008H         SYMBOL        i
+  -------         ENDDO         
+  C:042CH         LINE#         175
+  C:0430H         LINE#         179
+  C:0438H         LINE#         180
+  C:0441H         LINE#         181
+  C:0441H         LINE#         182
+  C:0447H         LINE#         183
+  C:044DH         LINE#         184
+  C:044DH         LINE#         185
+  -------         ENDPROC       TM0_ISR
+  -------         PROC          RELAYONTIMESETMODE
+  -------         DO            
+  D:0015H         SYMBOL        i
+  -------         ENDDO         
+  C:00BAH         LINE#         186
+  C:00BAH         LINE#         187
+  C:00BAH         LINE#         188
+  C:00C0H         LINE#         190
+  C:00C2H         LINE#         191
+  C:00C6H         LINE#         193
+  C:00CCH         LINE#         194
+  C:00CCH         LINE#         195
+  C:00CFH         LINE#         196
+  C:00D5H         LINE#         197
+  C:00D5H         LINE#         198
+  C:00D8H         LINE#         199
+  C:00DEH         LINE#         200
+  C:00DEH         LINE#         201
+  C:00E7H         LINE#         202
+  C:00EEH         LINE#         203
+  C:00F9H         LINE#         204
+  C:00FBH         LINE#         205
+  C:00FBH         LINE#         206
+  C:0101H         LINE#         208
+  C:0101H         LINE#         210
+  C:0104H         LINE#         211
+  C:0104H         LINE#         212
+  C:0107H         LINE#         213
+  C:010AH         LINE#         214
+  C:010AH         LINE#         215
+  C:0112H         LINE#         216
+  C:011BH         LINE#         217
+  C:0120H         LINE#         218
+  C:0120H         LINE#         219
+  C:0120H         LINE#         221
+  C:0123H         LINE#         222
+  C:0123H         LINE#         223
+  C:0126H         LINE#         224
+  C:0129H         LINE#         225
+  C:0129H         LINE#         226
+  C:0134H         LINE#         227
+  C:013CH         LINE#         228
+  C:013CH         LINE#         229
+  C:013CH         LINE#         231
+  C:0149H         LINE#         232
+  C:0149H         LINE#         233
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 7
+
+
+  C:0154H         LINE#         234
+  C:0156H         LINE#         236
+  -------         ENDPROC       RELAYONTIMESETMODE
+  -------         PROC          RELAYORDERTIMESETMODE
+  -------         DO            
+  D:0015H         SYMBOL        i
+  -------         ENDDO         
+  C:0157H         LINE#         237
+  C:0157H         LINE#         238
+  C:0157H         LINE#         239
+  C:015DH         LINE#         241
+  C:015FH         LINE#         242
+  C:0163H         LINE#         244
+  C:0169H         LINE#         245
+  C:0169H         LINE#         246
+  C:016CH         LINE#         247
+  C:0172H         LINE#         248
+  C:0172H         LINE#         249
+  C:0175H         LINE#         250
+  C:017BH         LINE#         251
+  C:017BH         LINE#         252
+  C:0184H         LINE#         253
+  C:018FH         LINE#         254
+  C:0196H         LINE#         255
+  C:0198H         LINE#         257
+  C:0198H         LINE#         258
+  C:019EH         LINE#         260
+  C:019EH         LINE#         262
+  C:01A1H         LINE#         263
+  C:01A1H         LINE#         264
+  C:01A4H         LINE#         265
+  C:01A7H         LINE#         266
+  C:01A7H         LINE#         267
+  C:01AFH         LINE#         268
+  C:01B8H         LINE#         269
+  C:01BDH         LINE#         270
+  C:01BDH         LINE#         271
+  C:01BDH         LINE#         273
+  C:01C0H         LINE#         274
+  C:01C0H         LINE#         275
+  C:01C3H         LINE#         276
+  C:01C6H         LINE#         277
+  C:01C6H         LINE#         278
+  C:01D1H         LINE#         279
+  C:01D9H         LINE#         280
+  C:01D9H         LINE#         281
+  C:01D9H         LINE#         283
+  C:01E6H         LINE#         284
+  C:01E6H         LINE#         285
+  C:01F1H         LINE#         286
+  C:01F3H         LINE#         287
+  -------         ENDPROC       RELAYORDERTIMESETMODE
+  -------         PROC          RELAYORDERMODE
+  -------         DO            
+  D:000AH         SYMBOL        TempSecond
+  -------         ENDDO         
+  C:02F2H         LINE#         288
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 8
+
+
+  C:02F2H         LINE#         289
+  C:02F2H         LINE#         291
+  C:02F4H         LINE#         292
+  C:02F6H         LINE#         296
+  C:02FCH         LINE#         297
+  C:02FCH         LINE#         298
+  C:02FFH         LINE#         299
+  C:0305H         LINE#         300
+  C:0305H         LINE#         301
+  C:030AH         LINE#         302
+  C:030EH         LINE#         303
+  C:0311H         LINE#         304
+  C:0313H         LINE#         305
+  C:0315H         LINE#         306
+  C:0315H         LINE#         308
+  C:031BH         LINE#         309
+  C:031BH         LINE#         310
+  C:0320H         LINE#         311
+  C:0322H         LINE#         313
+  C:0328H         LINE#         314
+  C:0328H         LINE#         315
+  C:032BH         LINE#         317
+  C:032BH         LINE#         319
+  C:0330H         LINE#         320
+  C:0330H         LINE#         321
+  C:0333H         LINE#         322
+  C:033EH         LINE#         323
+  C:033EH         LINE#         324
+  C:0346H         LINE#         325
+  C:0346H         LINE#         327
+  C:034CH         LINE#         328
+  C:034CH         LINE#         329
+  C:034FH         LINE#         331
+  C:034FH         LINE#         332
+  C:034FH         LINE#         333
+  C:0351H         LINE#         334
+  C:0351H         LINE#         335
+  -------         ENDPROC       RELAYORDERMODE
+  -------         PROC          RELAYONMODE
+  -------         DO            
+  D:000BH         SYMBOL        TempSecond
+  -------         ENDDO         
+  C:0280H         LINE#         338
+  C:0280H         LINE#         339
+  C:0280H         LINE#         341
+  C:0282H         LINE#         342
+  C:0284H         LINE#         344
+  C:028AH         LINE#         345
+  C:028AH         LINE#         346
+  C:028DH         LINE#         347
+  C:0293H         LINE#         348
+  C:0293H         LINE#         349
+  C:0298H         LINE#         350
+  C:029CH         LINE#         351
+  C:029FH         LINE#         352
+  C:02A1H         LINE#         353
+  C:02A3H         LINE#         354
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 9
+
+
+  C:02A3H         LINE#         357
+  C:02A9H         LINE#         358
+  C:02A9H         LINE#         359
+  C:02AEH         LINE#         361
+  C:02B4H         LINE#         362
+  C:02B4H         LINE#         363
+  C:02B6H         LINE#         364
+  C:02B9H         LINE#         365
+  C:02BBH         LINE#         367
+  C:02BBH         LINE#         368
+  C:02BDH         LINE#         369
+  C:02BDH         LINE#         371
+  C:02BFH         LINE#         372
+  C:02C4H         LINE#         373
+  C:02C4H         LINE#         374
+  C:02C7H         LINE#         375
+  C:02D2H         LINE#         376
+  C:02D2H         LINE#         377
+  C:02DAH         LINE#         378
+  C:02DAH         LINE#         379
+  C:02E0H         LINE#         380
+  C:02E0H         LINE#         381
+  C:02E2H         LINE#         382
+  C:02E5H         LINE#         383
+  C:02E5H         LINE#         384
+  C:02E5H         LINE#         385
+  C:02E7H         LINE#         386
+  C:02E7H         LINE#         387
+  -------         ENDPROC       RELAYONMODE
+  -------         ENDMOD        STC15W408AS
+
+  -------         MODULE        SHUMASHOW
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  C:000EH         PUBLIC        _ShuMaShow
+  B:00A0H.4       PUBLIC        DIG1
+  B:00A0H.5       PUBLIC        DIG2
+  B:00A0H.6       PUBLIC        DIG3
+  B:00A0H.7       PUBLIC        DIG4
+  C:040CH         SYMBOL        _delay
+  C:0494H         PUBLIC        Tab
+  C:049EH         PUBLIC        Tab_Dot
+  C:0402H         SYMBOL        L?0012
+  -------         PROC          L?0011
+  -------         ENDPROC       L?0011
+  C:0402H         SYMBOL        L?0012
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        x
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:040CH         LINE#         13
+  C:040CH         LINE#         14
+  C:040CH         LINE#         16
+  C:0416H         LINE#         17
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/13/2016  19:48:32  PAGE 10
+
+
+  C:042BH         LINE#         18
+  -------         ENDPROC       _DELAY
+  -------         PROC          _SHUMASHOW
+  D:0017H         SYMBOL        Second
+  D:0019H         SYMBOL        show_delay
+  C:000EH         LINE#         25
+  C:0016H         LINE#         26
+  C:0016H         LINE#         27
+  C:001EH         LINE#         28
+  C:0039H         LINE#         29
+  C:003CH         LINE#         31
+  C:0044H         LINE#         32
+  C:0064H         LINE#         33
+  C:0067H         LINE#         35
+  C:006FH         LINE#         36
+  C:0088H         LINE#         37
+  C:008BH         LINE#         39
+  C:0093H         LINE#         40
+  C:00B3H         LINE#         41
+  -------         ENDPROC       _SHUMASHOW
+  -------         ENDMOD        SHUMASHOW
+
+  -------         MODULE        ?C?UIDIV
+  C:035CH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TIMERSTOP?STC15W408AS
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RELAY_ON?STC15W408AS
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RELAY_OFF?STC15W408AS
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LED1_ON?STC15W408AS
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LED2_ON?STC15W408AS
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LED3_ON?STC15W408AS
+
+Program Size: data=28.0 xdata=0 code=1263
+LINK/LOCATE RUN COMPLETE.  6 WARNING(S),  0 ERROR(S)
