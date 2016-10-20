@@ -1,0 +1,317 @@
+C51 COMPILER V9.05   STC15W408AS                                                           10/20/2016 17:30:25 PAGE 1   
+
+
+C51 COMPILER V9.05, COMPILATION OF MODULE STC15W408AS
+OBJECT MODULE PLACED IN STC15W408AS.OBJ
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE STC15W408AS.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //-------------------------------------------
+   2          //-STC15W408AS项目主程序
+   3          //-------------------------------------------
+   4          //项目注释添加时间：2014年11月13日
+   5          
+   6          #include "reg51.h"
+   7          #include "shumashow.h"  //数码管显示模块调用
+   8          #include "multi_button.h"
+*** WARNING C318 IN LINE 9 OF multi_button.h: can't open file 'stdint.h'
+   9          #include "uart.h"
+  10          #include "led.h"
+  11          #include "hx711.h"
+  12          
+  13          sfr P0M1 = 0x93;
+  14          sfr P0M0 = 0x94;
+  15          sfr P1M1 = 0x91;
+  16          sfr P1M0 = 0x92;
+  17          sfr P2M1 = 0x95;
+  18          sfr P2M0 = 0x96;
+  19          sfr P3M1 = 0xb1;
+  20          sfr P3M0 = 0xb2;
+  21          sfr P4M1 = 0xb3;
+  22          sfr P4M0 = 0xb4;
+  23          sfr P5M1 = 0xC9;
+  24          sfr P5M0 = 0xCA;
+  25          sfr P6M1 = 0xCB;
+  26          sfr P6M0 = 0xCC;
+  27          sfr P7M1 = 0xE1;
+  28          sfr P7M0 = 0xE2;
+  29          
+  30          //按键接口定义
+  31          sbit key1= P3^2;
+  32          sbit key2= P3^3;
+  33          
+  34          //继电器接口定义
+  35          sbit relay= P2^0;
+  36          
+  37          //定时器模式设置寄存器定义
+  38          sfr AUXR = 0x8e;                    //Auxiliary register
+  39          
+  40          
+  41          
+  42          unsigned char Sys_5ms_flag=0;
+  43          unsigned char Sys_10ms_flag=0;
+  44          unsigned char Sys_20ms_flag=0;
+  45          unsigned char Sys_50ms_flag=0;
+  46          unsigned char Sys_100ms_flag=0;
+  47          unsigned char Sys_500ms_flag=0;
+  48          unsigned char Sys_1000ms_flag=0;
+  49          
+  50          unsigned int Sys_Hx711_Height=0;
+  51          //定时器0 延时5ms
+  52          void TimerInit(void)
+  53          {
+  54   1              AUXR |= 0x80;           //定时器时钟1T模式
+C51 COMPILER V9.05   STC15W408AS                                                           10/20/2016 17:30:25 PAGE 2   
+
+  55   1              TMOD &= 0xF0;           //设置定时器模式
+  56   1              TL0 = 0xA0;             //设置定时初值
+  57   1              TH0 = 0x15;             //设置定时初值
+  58   1              TF0 = 0;                //清除TF0标志
+  59   1              TR0 = 0;                //定时器0不开始计时
+  60   1      }
+  61          
+  62          //定时器开启
+  63          void TimerStart(void)
+  64          {
+  65   1              AUXR |= 0x80;           //定时器时钟1T模式
+  66   1              TMOD &= 0xF0;           //设置定时器模式
+  67   1              TL0 = 0xA0;             //设置定时初值
+  68   1              TH0 = 0x15;             //设置定时初值
+  69   1              TR0 = 1;                        //定时器0开始计时
+  70   1          ET0 = 1;                            //使能定时器0中断
+  71   1          EA = 1;                                                     
+  72   1      }
+  73          //定时器停止
+  74          void TimerStop(void)
+  75          {
+  76   1              AUXR |= 0x80;           //定时器时钟1T模式
+  77   1              TMOD &= 0xF0;           //设置定时器模式
+  78   1              TL0 = 0xA0;             //设置定时初值
+  79   1              TH0 = 0x15;             //设置定时初值                                  
+  80   1              TR0 = 0;                        //定时器0开始计时
+  81   1          ET0 = 0;                        //使能定时器0中断
+  82   1          EA = 0;
+  83   1      }
+  84          //延时
+  85          void delay(unsigned int x)
+  86          {
+  87   1              unsigned int i,j;
+  88   1              for(i=0;i<x;i++)
+  89   1              for(j=0;j<100;j++);
+  90   1      }
+  91          //继电器开启
+  92          void relay_on()
+  93          {
+  94   1              relay=1;
+  95   1      }
+  96          //继电器关闭
+  97          void relay_off()
+  98          {
+  99   1              relay=0;
+ 100   1      }
+ 101          
+ 102          void Sys_Disp_Height(unsigned int num);
+ 103          
+ 104          //按键部分处理
+ 105          struct Button button1;
+ 106          void BTN1_LONG_RRESS_START_Handler(void* btn);
+ 107          unsigned char read_button1_pin()
+ 108          {
+ 109   1              if(key1==0)
+ 110   1              return 0;
+ 111   1              else
+ 112   1              return 1;
+ 113   1      }
+ 114          sfr CLK_DIV     = 0x97;         //时钟分频寄存器
+ 115          
+ 116          #define  DEBUG_PRINTF
+C51 COMPILER V9.05   STC15W408AS                                                           10/20/2016 17:30:25 PAGE 3   
+
+ 117          void DEBUG_Printf(char *s)
+ 118          {
+ 119   1      #ifdef DEBUG_PRINTF
+ 120   1              SendString(s);
+ 121   1      #endif
+ 122   1      }
+ 123          //主程序
+ 124          void main()
+ 125          {
+ 126   1          CLK_DIV = 0x00;             //系统时钟为内部R/C振荡时钟
+ 127   1      //  CLK_DIV = 0x01;             //系统时钟为内部R/C振荡时钟/2
+ 128   1      //  CLK_DIV = 0x02;             //系统时钟为内部R/C振荡时钟/4
+ 129   1      //  CLK_DIV = 0x03;             //系统时钟为内部R/C振荡时钟/8
+ 130   1      //  CLK_DIV = 0x04;             //系统时钟为内部R/C振荡时钟/16
+ 131   1      //  CLK_DIV = 0x05;             //系统时钟为内部R/C振荡时钟/32
+ 132   1      //  CLK_DIV = 0x06;             //系统时钟为内部R/C振荡时钟/64
+ 133   1      //  CLK_DIV = 0x07;             //系统时钟为内部R/C振荡时钟/128
+ 134   1      
+ 135   1      
+ 136   1          P0M0 = 0x00;
+ 137   1          P0M1 = 0x00;
+ 138   1          P1M0 = 0x00;
+ 139   1          P1M1 = 0x00;
+ 140   1          P2M0 = 0x00;
+ 141   1          P2M1 = 0x00;
+ 142   1          P3M0 = 0x00;
+ 143   1          P3M1 = 0x00;
+ 144   1          P4M0 = 0x00;
+ 145   1          P4M1 = 0x00;
+ 146   1          P5M0 = 0x00;
+ 147   1          P5M1 = 0x00;
+ 148   1          P6M0 = 0x00;
+ 149   1          P6M1 = 0x00;
+ 150   1          P7M0 = 0x00;
+ 151   1          P7M1 = 0x00;
+ 152   1      
+ 153   1              //系统初始化
+ 154   1              delay(10);      //开机延时
+ 155   1      
+ 156   1      
+ 157   1              //P2端口引脚模式配置定义
+ 158   1              //P2M1.n P2M0.n
+ 159   1              //00->standard 01->push-pull
+ 160   1              //10->pure input 11->open drain 
+ 161   1              P2M0=0x01;              //P20 推挽输出,继电器控制引脚
+ 162   1              P2M1=0x00;
+ 163   1      
+ 164   1      
+ 165   1              //按键引脚 有效电平注册
+ 166   1              button_init(&button1, read_button1_pin, 0);
+ 167   1              //按键触发事件注册、回调函数引入
+ 168   1              button_attach(&button1, LONG_RRESS_START, BTN1_LONG_RRESS_START_Handler);
+ 169   1      
+ 170   1              UartInit();
+ 171   1      
+ 172   1              TimerInit();   //5ms interrupt
+ 173   1      
+ 174   1              DEBUG_Printf("\r\n HX711 Comming....\r\n");
+ 175   1      
+ 176   1              
+ 177   1              while(1)
+ 178   1              {
+C51 COMPILER V9.05   STC15W408AS                                                           10/20/2016 17:30:25 PAGE 4   
+
+ 179   2                      if(Sys_5ms_flag>=1){
+ 180   3                         Sys_5ms_flag=0;
+ 181   3                         button_ticks();
+ 182   3                      }
+ 183   2              
+ 184   2                      if(Sys_10ms_flag>=2){
+ 185   3                         Sys_10ms_flag=0;
+ 186   3              
+ 187   3                      }
+ 188   2              
+ 189   2                      if(Sys_20ms_flag>=4){
+ 190   3                         Sys_20ms_flag=0;
+ 191   3                         
+ 192   3                      }
+ 193   2              
+ 194   2                      if(Sys_50ms_flag>=10){
+ 195   3                        Sys_50ms_flag=0;
+ 196   3                        Sys_Disp_Height(Sys_Hx711_Height);
+ 197   3                       
+ 198   3                      }
+ 199   2                      
+ 200   2                      if(Sys_100ms_flag>=20){
+ 201   3                         Sys_100ms_flag=0;
+ 202   3                        
+ 203   3                      }
+ 204   2                      
+ 205   2                      if(Sys_500ms_flag>=100){
+ 206   3                         Sys_500ms_flag=0;
+ 207   3                        
+ 208   3                      }
+ 209   2                      
+ 210   2                      if(Sys_1000ms_flag>=200){
+ 211   3                         Sys_1000ms_flag=0;
+ 212   3                         led1_on_off();
+*** WARNING C206 IN LINE 212 OF STC15W408AS.c: 'led1_on_off': missing function-prototype
+ 213   3                         led2_on_off();
+*** WARNING C206 IN LINE 213 OF STC15W408AS.c: 'led2_on_off': missing function-prototype
+ 214   3                        
+ 215   3                      }               
+ 216   2              }
+ 217   1      }
+ 218          /* Timer0 interrupt routine */
+ 219          void tm0_isr() interrupt 1 using 1
+ 220          {
+ 221   1              static unsigned int Sys_5ms_cnt=0;      //定时器静态变量，记录定时器中断次数，5ms计数一次
+ 222   1              static unsigned int Sys_10ms_cnt=0;
+ 223   1              static unsigned int Sys_20ms_cnt=0;
+ 224   1              static unsigned int Sys_50ms_cnt=0;
+ 225   1              static unsigned int Sys_100ms_cnt=0;
+ 226   1              static unsigned int Sys_500ms_cnt=0;
+ 227   1              static unsigned int Sys_1000ms_cnt=0;
+ 228   1      
+ 229   1              if(Sys_5ms_cnt>=1){
+ 230   2                 Sys_5ms_cnt=0;
+ 231   2                 Sys_5ms_flag=1;
+ 232   2              }
+ 233   1      
+ 234   1              if(Sys_10ms_cnt>=2){
+ 235   2                 Sys_10ms_cnt=0;
+ 236   2                 Sys_10ms_flag=1;
+ 237   2              }
+ 238   1      
+C51 COMPILER V9.05   STC15W408AS                                                           10/20/2016 17:30:25 PAGE 5   
+
+ 239   1              if(Sys_20ms_cnt>=4){
+ 240   2                 Sys_20ms_cnt=0;
+ 241   2                 Sys_20ms_flag=1;
+ 242   2              }
+ 243   1      
+ 244   1              if(Sys_50ms_cnt>=10){
+ 245   2                Sys_50ms_cnt=0;
+ 246   2                Sys_50ms_flag=1;
+ 247   2      
+ 248   2              }
+ 249   1              
+ 250   1              if(Sys_100ms_cnt>=20){
+ 251   2                 Sys_100ms_cnt=0;
+ 252   2                 Sys_100ms_flag=1;
+ 253   2              }
+ 254   1              
+ 255   1              if(Sys_500ms_cnt>=100){
+ 256   2                 Sys_500ms_cnt=0;
+ 257   2                 Sys_500ms_flag=1;
+ 258   2              }
+ 259   1              
+ 260   1              if(Sys_1000ms_cnt>=200){
+ 261   2                 Sys_1000ms_cnt=0;
+ 262   2                 Sys_1000ms_flag=1;
+ 263   2              }               
+ 264   1              
+ 265   1              Sys_5ms_cnt++;  
+ 266   1              Sys_10ms_cnt++;
+ 267   1              Sys_20ms_cnt++;
+ 268   1              Sys_50ms_cnt++;
+ 269   1              Sys_100ms_cnt++;
+ 270   1              Sys_500ms_cnt++;
+ 271   1              Sys_1000ms_cnt++;               
+ 272   1      }
+ 273          
+ 274          void Sys_Disp_Height(unsigned int num)
+ 275          {
+ 276   1              ShuMaShow(num,10);
+ 277   1      }
+ 278          void BTN1_LONG_RRESS_START_Handler(void* btn)
+ 279          {
+ 280   1          //do something...
+ 281   1              DEBUG_Printf("Button1 long press strart\r\n");
+ 282   1      }
+*** WARNING C280 IN LINE 278 OF STC15W408AS.c: 'btn': unreferenced local variable
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    521    ----
+   CONSTANT SIZE    =     51    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     54       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  4 WARNING(S),  0 ERROR(S)

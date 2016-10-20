@@ -1,4 +1,4 @@
-C51 COMPILER V9.05   SHUMASHOW                                                             10/13/2016 19:48:32 PAGE 1   
+C51 COMPILER V9.05   SHUMASHOW                                                             10/20/2016 17:30:24 PAGE 1   
 
 
 C51 COMPILER V9.05, COMPILATION OF MODULE SHUMASHOW
@@ -27,32 +27,28 @@ line level    source
   18   1      }
   19          //--------------------------------
   20          //-数码管显示函数，
-  21          //参数一:unsigned int Second,要显示的秒变量，四位数码管低两位是秒位
-  22          //高两位是分位，中间以逗号隔开，可显示0s-(100*60-1)之间的任何时间秒
-  23          //参数二:unsigned int show_delay,数码管内部显示延时，不宜过大，也不宜过小
-  24          //--------------------------------
-  25          void ShuMaShow(unsigned int Second,unsigned int show_delay)
-  26          {
-  27   1              DIG1=0;DIG2=0;DIG3=0;DIG4=1;//选通数码管的4位 最右面，显示秒
-  28   1              P1=Tab[Second%60%10];
+  21          //参数一:unsigned int Second,要显示的秒变量
+  22          //参数二:unsigned int show_delay,数码管内部显示延时，不宜过大，也不宜过小
+  23          //--------------------------------
+  24          void ShuMaShow(unsigned int num,unsigned int show_delay)
+  25          {
+  26   1              
+  27   1              DIG1=0;DIG2=0;DIG3=1; //个位
+  28   1              P1=Tab[num%10];
   29   1              delay(show_delay);
   30   1              
-  31   1              DIG1=0;DIG2=0;DIG3=1;DIG4=0; //右面第二位，十秒
-  32   1              P1=Tab[Second%60/10];
+  31   1              DIG1=0;DIG2=1;DIG3=0;//十位
+  32   1              P1=Tab[num/10%10];
   33   1              delay(show_delay);
   34   1              
-  35   1              DIG1=0;DIG2=1;DIG3=0;DIG4=0;//右面第三位，分. 带小数点
-  36   1              P1=Tab_Dot[Second/60%10];
-  37   1              delay(show_delay);
-  38   1              
-  39   1              DIG1=1;DIG2=0;DIG3=0;DIG4=0;//右面第四位，十分
-  40   1              P1=Tab[Second/60/10];
-  41   1              delay(show_delay);      
-  42   1      }
+  35   1              DIG1=1;DIG2=0;DIG3=0;//百位
+  36   1              P1=Tab[num/100%10];
+  37   1              delay(show_delay);      
+  38   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    215    ----
+   CODE SIZE        =    139    ----
    CONSTANT SIZE    =     20    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

@@ -1,2 +1,4 @@
 1、Base做成
 2016-10-13 19:47:30
+2、添加MultiButton按键处理模块
+详细参照：https://github.com/0x1abin/MultiButton

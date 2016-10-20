@@ -18,25 +18,21 @@ static void delay(unsigned int x)
 }
 //--------------------------------
 //-数码管显示函数，
-//参数一:unsigned int Second,要显示的秒变量，四位数码管低两位是秒位
-//高两位是分位，中间以逗号隔开，可显示0s-(100*60-1)之间的任何时间秒
+//参数一:unsigned int Second,要显示的秒变量
 //参数二:unsigned int show_delay,数码管内部显示延时，不宜过大，也不宜过小
 //--------------------------------
-void ShuMaShow(unsigned int Second,unsigned int show_delay)
+void ShuMaShow(unsigned int num,unsigned int show_delay)
 {
-	DIG1=0;DIG2=0;DIG3=0;DIG4=1;//选通数码管的4位 最右面，显示秒
-	P1=Tab[Second%60%10];
+	
+	DIG1=0;DIG2=0;DIG3=1; //个位
+	P1=Tab[num%10];
 	delay(show_delay);
 	
-	DIG1=0;DIG2=0;DIG3=1;DIG4=0; //右面第二位，十秒
-	P1=Tab[Second%60/10];
+	DIG1=0;DIG2=1;DIG3=0;//十位
+	P1=Tab[num/10%10];
 	delay(show_delay);
 	
-	DIG1=0;DIG2=1;DIG3=0;DIG4=0;//右面第三位，分. 带小数点
-	P1=Tab_Dot[Second/60%10];
-	delay(show_delay);
-	
-	DIG1=1;DIG2=0;DIG3=0;DIG4=0;//右面第四位，十分
-	P1=Tab[Second/60/10];
+	DIG1=1;DIG2=0;DIG3=0;//百位
+	P1=Tab[num/100%10];
 	delay(show_delay);	
 }
